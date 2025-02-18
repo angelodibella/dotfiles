@@ -76,7 +76,7 @@
   "theme.font.weight": 600,
   "bar.workspaces.numbered_active_indicator": "underline",
   "bar.workspaces.workspaces": 10,
-  "bar.workspaces.ignored": "-98",
+  "bar.workspaces.ignored": "^-(9[0-9])$",
   "theme.notification.scaling": 90,
   "theme.osd.scaling": 90,
   "theme.bar.menus.menu.dashboard.scaling": 90,
@@ -89,5 +89,8 @@
   "theme.bar.menus.menu.notifications.scaling": 90,
   "theme.bar.menus.popover.scaling": 90,
   "bar.autoHide": "never",
-  "theme.bar.buttons.bluetooth.enableBorder": false
+  "theme.bar.buttons.bluetooth.enableBorder": false,
+  "bar.bluetooth.label": false,
+  "theme.bar.buttons.modules.ram.enableBorder": false,
+  "bar.windowtitle.truncation_size": 50
 }
