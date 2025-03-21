@@ -38,6 +38,9 @@ source ~/.zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 # Created by `pipx` on 2024-11-08 17:51:52
 export PATH="$PATH:/home/angelo/.local/bin:/home/angelo/.cargo/bin"
 
+# npm global packages.
+export PATH="/home/angelo/.npm/global/bin:$PATH"
+
 # Load Direnv 
 eval "$(direnv hook zsh)"
 
