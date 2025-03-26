@@ -32,6 +32,9 @@ source ~/.zsh/powerlevel10k/powerlevel10k.zsh-theme
 # Autosuggestions
 source ~/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh
 
+# Syntax highlighting (catppuccin)
+source ~/.zsh/catppuccin_mocha-zsh-syntax-highlighting.zsh
+
 # Syntax highlighting
 source ~/.zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 
