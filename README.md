@@ -45,6 +45,18 @@ git clone https://github.com/zsh-users/zsh-syntax-highlighting.git
 git clone https://github.com/junegunn/fzf-git.sh.git
 ```
 
+## Laptop Lid Behavior
+
+For laptops, edit `/etc/systemd/logind.conf` such that the following lines are uncommented/edited/added under `[Login]`:
+
+```ini
+HandleLidSwitch=suspend
+HandleLidSwitchExternalPower=suspend
+IdleAction=ignore
+IdleActionSec=30min
+HibernateDelaySec=120min
+```
+
 ## Catppuccin Icons and Cursors
 
 Install the (deprecated) GTK 3/4 Catppuccin themes with `yay -S catppuccin-gtk-theme-mocha`. Next, install the papirus icon theme via
