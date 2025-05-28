@@ -23,7 +23,7 @@ To clean install (override) the configurations follow these steps.
     ```
 
 3. Finally, stow each component in `Dotfiles/`:
-
+ 
     ```bash
     stow <component>
     ```
@@ -227,3 +227,23 @@ systemctl --user enable rclone@onedrive
 ```
 
 More information available at https://github.com/rclone/rclone/wiki/Systemd-rclone-mount/.
+
+### Mount Symlinks
+
+What I like to do is create symlinks of these drives to my home directory. This can by done by running
+
+```bash
+cd ~
+ln -s /mnt/gdrive Google\ Drive
+ln -s /mnt/onedrive OneDrive
+```
+
+and for some of the folders too (ensure they are deleted first):
+
+```bash
+cd ~
+ln -s /mnt/onedrive/Desktop Desktop
+ln -s /mnt/onedrive/Documents Documents
+ln -s /mnt/onedrive/Picture Picture
+ln -s /mnt/onedrive/Music Music
+```
