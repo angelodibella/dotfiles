@@ -99,5 +99,6 @@
   ],
   "bar.workspaces.reverse_scroll": false,
   "menus.dashboard.stats.enable_gpu": true,
-  "bar.workspaces.monitorSpecific": false
+  "bar.workspaces.monitorSpecific": false,
+  "menus.dashboard.powermenu.sleep": "systemctl suspend-then-hibernate"
 }
