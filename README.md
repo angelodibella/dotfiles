@@ -259,3 +259,8 @@ ln -s /mnt/onedrive/Documents Documents
 ln -s /mnt/onedrive/Picture Picture
 ln -s /mnt/onedrive/Music Music
 ```
+
+## Bat
+
+Run `bat cache --build` to load themes.
+
