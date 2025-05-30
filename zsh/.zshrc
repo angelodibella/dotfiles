@@ -50,6 +50,9 @@ eval "$(direnv hook zsh)"
 # Zoxide.
 eval "$(zoxide init zsh)"
 
+# SSH Agent.
+eval "$(ssh-agent)" > /dev/null
+
 # Set up fzf key bindings and fuzzy completion.
 source <(fzf --zsh)
 
