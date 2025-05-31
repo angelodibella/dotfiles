@@ -45,17 +45,58 @@ git clone https://github.com/zsh-users/zsh-syntax-highlighting.git
 git clone https://github.com/junegunn/fzf-git.sh.git
 ```
 
-## Laptop Lid Behavior
+## Power Configuration
 
-For laptops, edit `/etc/systemd/logind.conf` such that the following lines are uncommented/edited/added under `[Login]`:
+For computers with batteries (e.g., laptops), edit `/etc/systemd/logind.conf` such that the following lines are uncommented and have the following exact parameters:
 
 ```ini
-HandleLidSwitch=suspend
-HandleLidSwitchExternalPower=suspend
+[Login]
+SleepOperation=suspend-then-hibernate suspend hibernate
+HandlePowerKey=suspend-then-hibernate
+HandlePowerKeyLongPress=poweroff
+HandleLidSwitch=suspend-then-hibernate
 IdleAction=ignore
-IdleActionSec=30min
-HibernateDelaySec=120min
 ```
+
+then, similarly for `/etc/systemd/sleep.conf` with
+
+```ini
+[Sleep]
+AllowSuspendThenHibernate=yes
+AllowHybridSleep=no
+HibernateDelaySec=2h
+HibernateOnACPower=yes
+```
+
+After these modifications, run
+
+```bash
+sudo systemctl restart systemd-logind.service
+sudo systemctl daemon-reload
+```
+
+and, for safety, reboot.
+
+### Verification
+
+It is strongly recommended to verify the behavior of this power configuration. First, do some qualitative tests:
+    1. Execute `sudo systemctl sleep` from a terminal. The system should suspend. Resume it before the 2-hour `HibernateDelaySec elapses`. It should resume quickly from RAM.
+    2. Execute `sudo systemctl sleep` again. This time, allow the system to remain in suspend for more than 2 hours. Upon resuming after the delay, the system should resume from hibernation. This process is typically slower than resuming from suspend and may involve different visual cues during startup.
+Check the same with closing the laptop lid. Between each step, also check logs from `systemd-logind` and relevant sleep services via
+
+```bash
+journalctl -u systemd-logind.service -e
+```
+
+```bash
+journalctl -u systemd-suspend-then-hibernate.service -e
+```
+
+```bash
+journalctl -b  # Review logs since the last boot for messages around sleep/resume events.
+```
+
+wherever applicable. Look for messages indicating which sleep state was entered (e.g., "Starting Suspend...", "Suspending system...", "Waking up to hibernate...", "Starting Hibernate..."), any errors encountered during the process, and confirmation of resume events. During `suspend-then-hibernate`, scripts executed by `systemd-sleep` (located in `/usr/lib/systemd/system-sleep/`) receive an environment variable `SYSTEMD_SLEEP_ACTION` which will be set to "suspend" during the initial suspend phase and "hibernate" during the subsequent hibernation phase. Log entries from such scripts, if any are present, could also provide clues.
 
 ## Catppuccin Icons and Cursors
 
