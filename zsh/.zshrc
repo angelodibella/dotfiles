@@ -44,6 +44,9 @@ export PATH="$PATH:/home/angelo/.local/bin:/home/angelo/.cargo/bin"
 # npm global packages.
 export PATH="/home/angelo/.npm/global/bin:$PATH"
 
+# Set default editor to NeoVim.
+export EDITOR="nvim"
+
 # Load Direnv 
 eval "$(direnv hook zsh)"
 

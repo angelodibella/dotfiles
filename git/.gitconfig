@@ -12,3 +12,5 @@
 	helper = !/usr/bin/gh auth git-credential
 [gpg]
 	format = ssh
+[core]
+	editor = nvim
