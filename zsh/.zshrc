@@ -1,36 +1,24 @@
 # ============================================================================
-#                                                                            #
-#                              ANGELO'S ZSHRC                                #
-#                                                                            #
-# ============================================================================
-#
-# Sections:
-#   1. Environment Variables & PATH
-#   2. Powerlevel10k Instant Prompt
-#   3. Zinit (Plugin Manager)
-#   4. Zsh Options, History, and Keybindings
-#   5. Completion System & Styling
-#   6. External Tools & Hooks
-#
-
-# ============================================================================
-# 1. ENVIRONMENT VARIABLES & PATH
+# Zsh Configuration - Angelo
 # ============================================================================
 
-# Set the default editor for the system
+# ----------------------------------------------------------------------------
+# Section 1: Environment Variables & Core Settings
+# ----------------------------------------------------------------------------
+
+# Set the default editor
 export EDITOR="nvim"
 
-# Generate a comprehensive LS_COLORS map from 'dircolors' to enable colored
-# completions and fix display artifacts (e.g., the '@' symbol for symlinks).
+# Generate and export LS_COLORS for colored output in various tools.
+# Uses 'dircolors' for robust, standard color definitions.
 if command -v dircolors &> /dev/null; then
   export LS_COLORS="$(dircolors -b)"
 fi
 
-# --- FZF Configuration ---
-# Options are defined in Zsh arrays to correctly handle spaces and arguments.
-# This is the modern, correct way to configure fzf in Zsh.
+# --- FZF (Fuzzy Finder) Configuration ---
+# Define fzf options using Zsh arrays for correct argument handling.
+# These arrays are then expanded into the FZF_DEFAULT_OPTS string.
 
-# Base theme and layout options
 fzf_default_opts_array=(
   --height 50% --layout=default --border=rounded
   --color='bg+:#313244,bg:#1e1e2e,spinner:#f5e0dc,hl:#f38ba8'
@@ -40,16 +28,19 @@ fzf_default_opts_array=(
   --color='border:#313244,label:#cdd6f4'
 )
 
-# For compatibility with fzf's internal keybinding scripts (which expect
-# exported strings), we export the array contents as a single string.
+# Export FZF_DEFAULT_OPTS for fzf itself and fzf-tab to use.
 export FZF_DEFAULT_OPTS="${fzf_default_opts_array[*]}"
+
+# Commands for fzf's standard keybindings (Ctrl+T, Alt+C)
 export FZF_CTRL_T_COMMAND="fd --hidden --strip-cwd-prefix --exclude .git"
 export FZF_ALT_C_COMMAND="fd --type=d --hidden --strip-cwd-prefix --exclude .git"
+
+# Preview options for fzf's standard keybindings
 export FZF_CTRL_T_OPTS="--preview 'bat --color=always -n --line-range :500 {}'"
 export FZF_ALT_C_OPTS="--preview 'eza --tree --color=always {} | head -200'"
 
 # --- PATH Configuration ---
-# Use `typeset -U path` to ensure the PATH array contains only unique entries.
+# Use `typeset -U path` to ensure unique entries in the PATH.
 typeset -U path
 path=(
   "$HOME/.local/bin"
@@ -63,94 +54,106 @@ path=(
 )
 export PATH
 
-
-# ============================================================================
-# 2. POWERLEVEL10K INSTANT PROMPT
-#    (Must be sourced near the top of the file)
-# ============================================================================
+# ----------------------------------------------------------------------------
+# Section 2: Powerlevel10k Instant Prompt
+# (Must be sourced very early for optimal performance)
+# ----------------------------------------------------------------------------
 if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
   source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
 fi
 
-
-# ============================================================================
-# 3. ZINIT (PLUGIN MANAGER)
-# ============================================================================
+# ----------------------------------------------------------------------------
+# Section 3: Zinit (Plugin Manager) & Plugins
+# ----------------------------------------------------------------------------
+# Source Zinit itself
 source /usr/share/zinit/zinit.zsh
 
-## Prompt Theme
+# --- Zinit Plugins ---
+
+# Powerlevel10k Prompt Theme
 zinit ice as"theme"
 zinit light romkatv/powerlevel10k
 # Source personal P10k customizations if the file exists
 [[ ! -f ~/.zsh/.p10k.zsh ]] || source ~/.zsh/.p10k.zsh
 
-## Syntax Highlighting
-# The theme file must be sourced before the plugin is loaded.
+# Syntax Highlighting with Catppuccin Theme
+# Source the theme file before loading the plugin.
 source ~/.zsh/catppuccin_mocha-zsh-syntax-highlighting.zsh
 zinit light zsh-users/zsh-syntax-highlighting
 
-## Core Functionality & Completions
+# Core Zsh Enhancement Plugins
+# Load order matters: fzf-tab before autosuggestions.
 zinit light zsh-users/zsh-completions
-zinit light zsh-users/zsh-autosuggestions
 zinit light junegunn/fzf-git.sh
 zinit light Aloxaf/fzf-tab
+zinit light zsh-users/zsh-autosuggestions
 
+# ----------------------------------------------------------------------------
+# Section 4: Zsh Shell Behavior
+# ----------------------------------------------------------------------------
 
-# ============================================================================
-# 4. ZSH OPTIONS, HISTORY, AND KEYBINDINGS
-# ============================================================================
-
-## History Configuration
+# --- History Configuration ---
 HISTFILE=~/.zsh/.histfile
 HISTSIZE=5000
-SAVEHIST=5000
+SAVEHIST=5000 # Number of lines to save in the history file
 setopt APPEND_HISTORY SHARE_HISTORY HIST_IGNORE_SPACE HIST_SAVE_NO_DUPS HIST_IGNORE_ALL_DUPS HIST_FIND_NO_DUPS
 
-## Keybindings
-bindkey -v  # Use Vim keybindings in command-line mode
+# --- Keybindings ---
+bindkey -v  # Use Vim keybindings for command-line editing
 
-## Aliases
-# Source a separate file for aliases to keep this file clean.
+# --- Aliases ---
+# Source aliases from a separate file for better organization.
 [[ -f ~/.zsh/aliases.zsh ]] && source ~/.zsh/aliases.zsh
 
+# ----------------------------------------------------------------------------
+# Section 5: Completion System & Styling
+# ----------------------------------------------------------------------------
 
-# ============================================================================
-# 5. COMPLETION SYSTEM & STYLING
-# ============================================================================
+# Initialize Zsh's completion system
 autoload -Uz compinit
-compinit -d ~/.zsh/.zcompdump
+compinit -d ~/.zsh/.zcompdump # Use a custom dump file location
 
-# Source fzf's keybindings
+# Source fzf's own keybindings and completion setup
 source <(fzf --zsh)
 
-## Zsh Completion System Styling
+# --- Zsh Completion System Styling ---
+# Use LS_COLORS for completion list colors (fixes '@' for symlinks).
 zstyle ':completion:*' list-colors "${(s.:.)LS_COLORS}"
+# Case-insensitive matching for completions.
 zstyle ':completion:*' matcher-list 'm:{a-z}={A-Za-z}'
+# Use a selectable menu for completions.
 zstyle ':completion:*' menu select
 
-## fzf-tab Preview Configuration
-# ANNOTATION: Theming `fzf-tab` via `fzf-opts` is currently not working due to a
-# suspected incompatibility. However, setting previews works correctly.
+# --- fzf-tab Configuration ---
+# Instruct fzf-tab to use the global FZF_DEFAULT_OPTS for theming.
+# This ensures visual consistency with standard fzf keybindings.
+zstyle ':fzf-tab:*' use-fzf-default-opts yes
+
+# Configure preview commands for fzf-tab.
+# These use the fzf-preview style, which works correctly.
 zstyle ':fzf-tab:complete:cd:*' fzf-preview 'eza --tree --color=always $realpath | head -200'
 zstyle ':fzf-tab:complete:*:preview' fzf-preview 'bat --color=always -n --line-range :500 $realpath'
 
+# ----------------------------------------------------------------------------
+# Section 6: External Tools & Hooks
+# ----------------------------------------------------------------------------
 
-# ============================================================================
-# 6. EXTERNAL TOOLS & HOOKS
-# ============================================================================
-
-## SSH Agent (start only if not already running)
+# --- SSH Agent ---
+# Start ssh-agent only if it's not already running for the current user.
 if ! pgrep -u "$USER" ssh-agent > /dev/null; then
     ssh-agent > ~/.ssh-agent-info
 fi
+# Source agent info if the file exists.
 if [[ -f ~/.ssh-agent-info ]]; then
     source ~/.ssh-agent-info > /dev/null
 fi
 
-## Direnv & Zoxide
+# --- Direnv & Zoxide ---
+# Initialize direnv for directory-specific environments.
 eval "$(direnv hook zsh)"
+# Initialize zoxide for fast directory navigation.
 eval "$(zoxide init zsh)"
 
 # ============================================================================
-#                                END OF FILE                                 #
+# End of Zsh Configuration
 # ============================================================================
