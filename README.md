@@ -1,3 +1,13 @@
+# Dependencies
+
+For Zsh, run
+
+```bash
+yay -S direnv eza fd fzf zinit zoxide
+```
+
+for the rest of the packages, TODO!
+
 # Installation
 
 To clean install (override) the configurations follow these steps.
@@ -33,17 +43,6 @@ To clean install (override) the configurations follow these steps.
 Follow these steps to make sure everything works as expected.
 
 **Note:** These are not exhaustive! However, they are the trickiest steps I've found.
-
-## Zsh Augmentation
-
-Run the following to clone useful libraries in `.zsh/`:
-```bash
-cd ~/.zsh
-git clone https://github.com/romkatv/powerlevel10k.git
-git clone https://github.com/zsh-users/zsh-autosuggestions.git
-git clone https://github.com/zsh-users/zsh-syntax-highlighting.git
-git clone https://github.com/junegunn/fzf-git.sh.git
-```
 
 ## Power Configuration
 
