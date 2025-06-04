@@ -1,9 +1,9 @@
 # Dependencies
 
-For Zsh, run
+For Zsh and tmux, run
 
 ```bash
-yay -S direnv eza fd fzf zinit zoxide
+yay -S direnv eza fd fzf tmux-plugin-manager zinit zoxide
 ```
 
 for the rest of the packages, TODO!
