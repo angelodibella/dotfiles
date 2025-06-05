@@ -148,13 +148,6 @@ if [[ -f ~/.ssh-agent-info ]]; then
     source ~/.ssh-agent-info > /dev/null
 fi
 
-# --- Tmux ---
-# Start tmux automatically.
-if command -v tmux >/dev/null 2>&1 && [ -z "$TMUX" ] && [ "$TERM" != "linux" ]; then
-  # Check if a session named "main" exists, otherwise create it and attach.
-  tmux attach-session -t main || tmux new-session -s main
-fi
-
 # --- Direnv & Zoxide ---
 # Initialize direnv for directory-specific environments.
 eval "$(direnv hook zsh)"
