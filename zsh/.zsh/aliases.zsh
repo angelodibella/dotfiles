@@ -22,3 +22,8 @@ alias chrome="google-chrome-stable"
 alias copy="wl-copy"
 alias paste="wl-paste"
 
+# Tmux
+alias t="tmux"
+alias ta="tmux attach -t"
+alias tad="tmux attach -d -t"
+
