@@ -16,10 +16,25 @@ return {
 	},
 	config = function()
 		require("telescope").setup({
+			defaults = {
+				file_ignore_patterns = {
+					"^.git/",
+					"^.vscode/",
+					"^.idea/",
+					"^__pycache__/",
+					"^.venv/",
+					"%.pdf",
+					"%.ico",
+					"%.png",
+					"%.jpg",
+					"%.jpeg",
+				},
+			},
 			pickers = {
 				find_files = {
 					follow = true,
 					hidden = true,
+					no_ignore = false,
 				},
 			},
 			extensions = {
