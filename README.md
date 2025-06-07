@@ -1,9 +1,9 @@
 # Dependencies
 
-For Zsh and tmux, run
+For Zsh, tmux and NeoVim, run
 
 ```bash
-yay -S direnv eza fd fzf tmux-plugin-manager zinit zoxide
+yay -S direnv eza fd fzf neovim tmux-plugin-manager wget unzip zinit zip zoxide
 ```
 
 for the rest of the packages, TODO!
