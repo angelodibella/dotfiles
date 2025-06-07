@@ -1,6 +1,6 @@
 return {
 	"nvim-telescope/telescope.nvim",
-	tag = "0.1.8",
+	branch = "0.1.x",
 	event = "VimEnter",
 	dependencies = {
 		"nvim-lua/plenary.nvim",
@@ -19,6 +19,7 @@ return {
 			pickers = {
 				find_files = {
 					follow = true,
+					hidden = true,
 				},
 			},
 			extensions = {
