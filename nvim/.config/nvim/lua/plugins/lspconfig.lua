@@ -26,6 +26,13 @@ return {
 					vim.keymap.set(mode, keys, func, { buffer = event.buf, desc = "LSP: " .. desc })
 				end
 
+				-- Hovering over the variable brings documentation
+				map("K", function()
+					vim.lsp.buf.hover({
+						border = "single",
+					})
+				end, "hover")
+
 				-- Rename the variable under your cursor
 				map("grn", vim.lsp.buf.rename, "[r]e[n]ame")
 
