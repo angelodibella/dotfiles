@@ -6,7 +6,13 @@
 --  - capabilities (table): Override fields in capabilities. Can be used to disable certain LSP features.
 --  - settings (table): Override the default settings passed when initializing the server.
 return {
+	-- Bash and Zsh
+	bashls = {},
+
+	-- C++
 	clangd = {},
+
+	-- Lua
 	lua_ls = {
 		settings = {
 			Lua = {
@@ -16,4 +22,21 @@ return {
 			},
 		},
 	},
+
+	-- Python
+	basedpyright = {
+		settings = {
+			basedpyright = {
+				-- Let Ruff do this
+				disableOrganizeImports = true,
+			},
+			python = {
+				analysis = {
+					-- Use Ruff for linting
+					ignore = { "*" },
+				},
+			},
+		},
+	},
+	ruff = {}, -- Use for linting, formatting and import organization
 }

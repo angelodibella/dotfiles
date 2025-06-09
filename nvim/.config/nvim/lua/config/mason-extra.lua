@@ -1,9 +1,10 @@
--- Enable other Mason features that are not LSPs.
+-- Enable other Mason features that are not LSPs. E.g., formatters, linters
+-- and DAPs.
 return {
-	-- DAPs
+	-- Bash and Zsh
+	"shellcheck", -- linter (bash-only)
+	"beautysh", -- formatter
 
-	-- Linters
-
-	-- Formatters
+	-- Lua
 	"stylua",
 }

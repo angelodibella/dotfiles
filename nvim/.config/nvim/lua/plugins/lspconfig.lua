@@ -6,7 +6,7 @@ return {
 		"mason-org/mason-lspconfig.nvim",
 		"WhoIsSethDaniel/mason-tool-installer.nvim",
 
-		-- Useful status updates for LSP.
+		-- Useful status updates for LSP
 		{ "j-hui/fidget.nvim", opts = {} },
 
 		-- Allows extra capabilities provided by blink.cmp
@@ -125,10 +125,10 @@ return {
 			underline = { severity = vim.diagnostic.severity.ERROR },
 			signs = vim.g.have_nerd_font and {
 				text = {
-					[vim.diagnostic.severity.ERROR] = "󰅚 ",
-					[vim.diagnostic.severity.WARN] = "󰀪 ",
-					[vim.diagnostic.severity.INFO] = "󰋽 ",
-					[vim.diagnostic.severity.HINT] = "󰌶 ",
+					[vim.diagnostic.severity.ERROR] = " ",
+					[vim.diagnostic.severity.WARN] = " ",
+					[vim.diagnostic.severity.INFO] = " ",
+					[vim.diagnostic.severity.HINT] = " ",
 				},
 			} or {},
 			virtual_text = {
