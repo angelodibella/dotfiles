@@ -43,6 +43,7 @@ return {
 			{ "<leader>t", group = "[t]oggle" },
 			{ "<leader>T", group = "[T]est" },
 			{ "<leader>h", group = "git [h]unk", mode = { "n", "v" } },
+			{ "<leader>y", group = "[y]azi" },
 		},
 	},
 }
