@@ -42,7 +42,7 @@ return {
 			{ "<leader>f", group = "[f]ind" },
 			{ "<leader>t", group = "[t]oggle" },
 			{ "<leader>T", group = "[T]est" },
-			{ "<leader>h", group = "Git [h]unk", mode = { "n", "v" } },
+			{ "<leader>h", group = "git [h]unk", mode = { "n", "v" } },
 		},
 	},
 }
