@@ -52,7 +52,7 @@ return {
 		vim.keymap.set("n", "<leader>fh", builtin.help_tags, { desc = "[f]ind [h]elp" })
 		vim.keymap.set("n", "<leader>fk", builtin.keymaps, { desc = "[f]ind [k]eymaps" })
 		vim.keymap.set("n", "<leader>ff", builtin.find_files, { desc = "[f]ind [f]iles" })
-		vim.keymap.set("n", "<leader>fs", builtin.builtin, { desc = "[f]ind [s]elect Telescope" })
+		vim.keymap.set("n", "<leader>fs", builtin.builtin, { desc = "[f]ind [s]elect telescope" })
 		vim.keymap.set("n", "<leader>fw", builtin.grep_string, { desc = "[f]ind current [w]ord" })
 		vim.keymap.set("n", "<leader>fg", builtin.live_grep, { desc = "[f]ind by [g]rep" })
 		vim.keymap.set("n", "<leader>fd", builtin.diagnostics, { desc = "[f]ind [d]iagnostics" })
