@@ -3,6 +3,7 @@ font-family = JetBrainsMono Nerd Font Mono
 font-size = 16
 # background-opacity = 0.9
 gtk-titlebar = false
+cursor-invert-fg-bg
 
 # Keybinds
 keybind = ctrl+shift+j=unbind
