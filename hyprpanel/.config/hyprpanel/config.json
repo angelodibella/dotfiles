@@ -56,6 +56,7 @@
         "media"
       ],
       "right": [
+        "battery",
         "volume",
         "network",
         "bluetooth",
@@ -92,5 +93,15 @@
   "theme.bar.buttons.bluetooth.enableBorder": false,
   "bar.bluetooth.label": false,
   "theme.bar.buttons.modules.ram.enableBorder": false,
-  "bar.windowtitle.truncation_size": 50
+  "bar.windowtitle.truncation_size": 50,
+  "bar.customModules.storage.paths": [
+    "/"
+  ],
+  "bar.workspaces.reverse_scroll": false,
+  "menus.dashboard.stats.enable_gpu": true,
+  "bar.workspaces.monitorSpecific": false,
+  "menus.dashboard.powermenu.sleep": "systemctl sleep",
+  "bar.customModules.hypridle.onLabel": "",
+  "bar.customModules.hypridle.offLabel": "",
+  "bar.customModules.hypridle.label": false
 }
