@@ -304,3 +304,6 @@ ln -s /mnt/onedrive/Music Music
 
 Run `bat cache --build` to load themes.
 
+## Hyprpanel
+
+For some reason, Hyprpanel (version r576.05cd1f5-1) does not save this option in the JSON configuration... but I like to have `Configuration > Bar > Workspaces > Monitor Specific` toggled off (available in the settings GUI baked into the package).
