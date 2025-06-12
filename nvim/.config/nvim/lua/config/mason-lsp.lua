@@ -39,4 +39,7 @@ return {
 		},
 	},
 	ruff = {}, -- Use for linting, formatting and import organization
+
+	-- Rust
+	rust_analyzer = {},
 }
