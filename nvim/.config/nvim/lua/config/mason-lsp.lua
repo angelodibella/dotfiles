@@ -42,4 +42,7 @@ return {
 
 	-- Rust
 	rust_analyzer = {},
+
+	-- TOML
+	taplo = {},
 }
