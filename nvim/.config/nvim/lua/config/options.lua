@@ -1,5 +1,6 @@
 -- Relative numbering
 vim.o.relativenumber = true
+vim.o.number = true
 
 -- Enable mouse mode
 vim.o.mouse = "a"
@@ -38,6 +39,9 @@ vim.o.splitbelow = true
 -- Cool whitespace characters
 vim.o.list = true
 vim.opt.listchars = { tab = "» ", trail = "·", nbsp = "␣" }
+
+-- Newline at the end of files
+vim.opt.fixeol = true
 
 -- Preview substitutions live
 vim.o.inccommand = "split"
