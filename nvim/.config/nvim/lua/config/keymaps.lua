@@ -1,4 +1,3 @@
--- Navigate vim panes better
 vim.keymap.set("n", "<C-h>", "<C-w><C-h>", { desc = "Move focus to the left window" })
 vim.keymap.set("n", "<C-l>", "<C-w><C-l>", { desc = "Move focus to the right window" })
 vim.keymap.set("n", "<C-j>", "<C-w><C-j>", { desc = "Move focus to the lower window" })
@@ -37,11 +36,8 @@ vim.keymap.set(
 	"n",
 	"<leader>ot",
 	"<CMD>cd ~/Obsidian/personal<CR><CMD>Obsidian new_from_template<CR>",
-	{ desc = "new [o]bsidian note from [t]emplate" }
+	{ desc = "new note from [t]emplate" }
 )
-vim.keymap.set(
-	"n",
-	"<leader>ob",
-	"<CMD>Obsidian backlinks<CR>",
-	{ desc = "list [o]bsidian [b]acklinks to the current buffer" }
-)
+vim.keymap.set("n", "<leader>ob", "<CMD>Obsidian backlinks<CR>", { desc = "list [b]acklinks to the current note" })
+vim.keymap.set("n", "<leader>ol", "<CMD>Obsidian links<CR>", { desc = "list [l]inks in the current note" })
+vim.keymap.set("n", "<leader>of", "<CMD>Obsidian search<CR>", { desc = "[f]ind note" })
