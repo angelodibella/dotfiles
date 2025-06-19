@@ -19,3 +19,18 @@ vim.keymap.set("n", "<leader>q", vim.diagnostic.setloclist, { desc = "open diagn
 -- NOTE: This won't work in all terminal emulators/tmux/etc. Try your own mapping
 -- or just use <C-\><C-n> to exit terminal mode.
 vim.keymap.set("t", "<Esc><Esc>", "<C-\\><C-n>", { desc = "Exit terminal mode" })
+
+--- Plugin Keymaps ---
+
+-- Markview
+vim.keymap.set("n", "<leader>tm", "<CMD>Markview toggle<CR>", { desc = "[t]oggle [m]arkview rendering" })
+
+-- Obsidian
+vim.keymap.set("n", "gf", function()
+	if require("obsidian").util.cursor_on_markdown_link() then
+		return "<cmd>ObsidianFollowLink<CR>"
+	else
+		return "gf"
+	end
+end, { noremap = false, expr = true })
+vim.keymap.set("n", "<leader>ot", "<CMD>ObsidianNewFromTemplate<CR>", { desc = "new [o]bsidian note from [t]emplate" })
