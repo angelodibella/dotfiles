@@ -33,4 +33,15 @@ vim.keymap.set("n", "gf", function()
 		return "gf"
 	end
 end, { noremap = false, expr = true })
-vim.keymap.set("n", "<leader>ot", "<CMD>ObsidianNewFromTemplate<CR>", { desc = "new [o]bsidian note from [t]emplate" })
+vim.keymap.set(
+	"n",
+	"<leader>ot",
+	"<CMD>cd ~/Obsidian/personal<CR><CMD>Obsidian new_from_template<CR>",
+	{ desc = "new [o]bsidian note from [t]emplate" }
+)
+vim.keymap.set(
+	"n",
+	"<leader>ob",
+	"<CMD>Obsidian backlinks<CR>",
+	{ desc = "list [o]bsidian [b]acklinks to the current buffer" }
+)
