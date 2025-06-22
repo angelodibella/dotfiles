@@ -74,6 +74,27 @@ local function get_tags_from_file(file_path)
 	return tags
 end
 
+local function get_main_project_from_file(file_path)
+	local lines = vim.fn.readfile(file_path)
+	if not lines or #lines == 0 then
+		return nil
+	end
+
+	for i = 1, #lines do
+		local line = lines[i]
+		if i > 1 and line == "---" then
+			break
+		end
+
+		-- Match 'main: "[[project-name]]"' or 'main: [[project-name]]'
+		local main_project = line:match('^%s*main:%s*%"?%[%[([^%]]+)%]%]"?,?%s*$')
+		if main_project then
+			return main_project
+		end
+	end
+	return nil
+end
+
 local function archive_inbox_note()
 	local file_path = vim.api.nvim_buf_get_name(0)
 	if not string.find(file_path, vim.fn.expand("~/Obsidian/personal/inbox/")) then
@@ -82,25 +103,42 @@ local function archive_inbox_note()
 	end
 
 	local tags = get_tags_from_file(file_path)
-	local target_dir_name = "topics"
+	local vault_path = vim.fn.expand("~/Obsidian/personal")
+	local file_name_with_ext = vim.fn.fnamemodify(file_path, ":t")
+	local target_dir_path
 
-	if vim.tbl_contains(tags, "guide") then
-		target_dir_name = "guides"
-	elseif vim.tbl_contains(tags, "snippet") then
-		target_dir_name = "snippets"
-	elseif vim.tbl_contains(tags, "fact") then
-		target_dir_name = "facts"
+	-- Highest priority: check for #project tag
+	if vim.tbl_contains(tags, "project") then
+		local file_name_no_ext = vim.fn.fnamemodify(file_path, ":t:r")
+		target_dir_path = vault_path .. "/projects/" .. file_name_no_ext
+	-- Next priority: check for #subproject tag
+	elseif vim.tbl_contains(tags, "subproject") then
+		local main_project = get_main_project_from_file(file_path)
+		if main_project then
+			target_dir_path = vault_path .. "/projects/" .. main_project
+		else
+			print('Error: #subproject tag found, but "main:" field is missing or invalid.')
+			return
+		end
+	-- Fallback to other tags
+	else
+		local target_sub_dir = "topics" -- Default directory
+		if vim.tbl_contains(tags, "guide") then
+			target_sub_dir = "guides"
+		elseif vim.tbl_contains(tags, "snippet") then
+			target_sub_dir = "snippets"
+		elseif vim.tbl_contains(tags, "fact") then
+			target_sub_dir = "facts"
+		end
+		target_dir_path = vault_path .. "/" .. target_sub_dir
 	end
 
-	local vault_path = vim.fn.expand("~/Obsidian/personal")
-	local file_name = vim.fn.fnamemodify(file_path, ":t")
-	local new_dir_path = vault_path .. "/" .. target_dir_name
-	local new_file_path = new_dir_path .. "/" .. file_name
-
-	vim.fn.mkdir(new_dir_path, "p")
+	-- Perform the move
+	local new_file_path = target_dir_path .. "/" .. file_name_with_ext
+	vim.fn.mkdir(target_dir_path, "p")
 
 	if os.rename(file_path, new_file_path) then
-		print("Note archived to '" .. target_dir_name .. "'.")
+		print("Note archived to '" .. target_dir_path:gsub(vault_path .. "/", "") .. "'.")
 		vim.cmd("bdelete!")
 	else
 		print("Error: Failed to archive note.")

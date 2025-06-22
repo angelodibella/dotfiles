@@ -28,12 +28,7 @@ vim.keymap.set("n", "gf", function()
 		return "gf"
 	end
 end, { noremap = false, expr = true })
-vim.keymap.set(
-	"n",
-	"<leader>ot",
-	"<CMD>cd ~/Obsidian/personal<CR><CMD>Obsidian new_from_template<CR>",
-	{ desc = "new note from [t]emplate" }
-)
+vim.keymap.set("n", "<leader>ot", "<CMD>Obsidian new_from_template<CR>", { desc = "new note from [t]emplate" })
 vim.keymap.set("n", "<leader>ob", "<CMD>Obsidian backlinks<CR>", { desc = "list [b]acklinks to the current note" })
 vim.keymap.set("n", "<leader>ol", "<CMD>Obsidian links<CR>", { desc = "list [l]inks in the current note" })
 vim.keymap.set("n", "<leader>of", "<CMD>Obsidian search<CR>", { desc = "[f]ind note" })
