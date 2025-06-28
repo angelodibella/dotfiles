@@ -3,15 +3,20 @@ return {
 	name = "catppuccin",
 	lazy = false,
 	priority = 1000,
-	opts = {
-		compile = {
-			enabled = true,
-			path = vim.fn.stdpath("cache") .. "/catppuccin",
-		},
-
-		flavor = "mocha",
-	},
 	config = function()
+		require("catppuccin").setup({
+			compile = {
+				enabled = true,
+				path = vim.fn.stdpath("cache") .. "/catppuccin",
+			},
+
+			custom_highlights = function(colors)
+				return {
+					FloatBorder = { fg = colors.overlay0 },
+				}
+			end,
+		})
+
 		vim.cmd.colorscheme("catppuccin")
 	end,
 }
