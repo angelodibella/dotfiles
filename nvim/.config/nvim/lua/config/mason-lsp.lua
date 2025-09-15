@@ -10,7 +10,11 @@ return {
 	bashls = {},
 
 	-- C++
-	clangd = {},
+	clangd = {
+		init_options = {
+			fallbackFlags = { "--std=c++23" },
+		},
+	},
 
 	-- Lua
 	lua_ls = {
