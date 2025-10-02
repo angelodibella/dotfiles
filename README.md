@@ -300,10 +300,20 @@ ln -s /mnt/onedrive/Picture Picture
 ln -s /mnt/onedrive/Music Music
 ```
 
+## Automatic Timezone Switch
+
+Create a drop-in file `/etc/NetworkManager/dispatcher.d/09-timezone` and make it executable. Edit it to contain the following:
+
+```bash
+#!/bin/sh
+case "$2" in
+    up)
+        timedatectl set-timezone "$(curl --fail https://ipapi.co/timezone)"
+    ;;
+esac
+```
+
 ## Bat
 
 Run `bat cache --build` to load themes.
 
-## Hyprpanel
-
-For some reason, Hyprpanel (version r576.05cd1f5-1) does not save this option in the JSON configuration... but I like to have `Configuration > Bar > Workspaces > Monitor Specific` toggled off (available in the settings GUI baked into the package).
