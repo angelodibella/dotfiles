@@ -16,6 +16,10 @@ return {
 		},
 	},
 
+	-- LaTeX
+	latexindent = {},
+	vale = {},
+
 	-- Lua
 	lua_ls = {
 		settings = {
