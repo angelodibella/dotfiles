@@ -33,5 +33,10 @@ vim.keymap.set("n", "<leader>ob", "<CMD>Obsidian backlinks<CR>", { desc = "list 
 vim.keymap.set("n", "<leader>ol", "<CMD>Obsidian links<CR>", { desc = "list [l]inks in the current note" })
 vim.keymap.set("n", "<leader>of", "<CMD>Obsidian search<CR>", { desc = "[f]ind note" })
 
--- Oil keymaps
+-- Oil
 vim.keymap.set("n", "-", "<CMD>Oil --float<CR>", { desc = "open parent directory" })
+
+-- Remote SSHFS
+vim.keymap.set("n", "<leader>rc", "<CMD>RemoteSSHFSConnect<CR>", { desc = "[c]onnect to remote" })
+vim.keymap.set("n", "<leader>rd", "<CMD>RemoteSSHFSDisconnect<CR>", { desc = "[d]isconnect from remote" })
+vim.keymap.set("n", "<leader>re", "<CMD>RemoteSSHFSEdit<CR>", { desc = "[e]dit SSH config files" })

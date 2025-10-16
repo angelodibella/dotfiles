@@ -43,9 +43,9 @@ return {
 			{ "<leader>h", group = "git [h]unk", mode = { "n", "v" } },
 			{ "<leader>o", group = "[o]bsidian" },
 			{ "<leader>p", group = "[p]review" },
+			{ "<leader>r", group = "[r]emote" },
 			{ "<leader>t", group = "[t]oggle" },
 			{ "<leader>T", group = "[T]est" },
-			{ "<leader>y", group = "[y]azi" },
 		},
 	},
 }

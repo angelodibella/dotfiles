@@ -39,15 +39,14 @@ alias pyoff="deactivate"
 # Zoxide
 alias cd="z"
 
-# Apps
-alias chrome="google-chrome-stable"
-
 # Copy-pasting
 alias copy="wl-copy"
 alias paste="wl-paste"
 
 # Tmux
-alias t="tmux"
 alias ta="tmux attach -t"
 alias tad="tmux attach -d -t"
+
+# SSH
+alias ssha='eval "$(ssh-agent -s)"; ssh-add'
 
