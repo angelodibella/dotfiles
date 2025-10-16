@@ -23,7 +23,7 @@ vim.keymap.set("n", "<leader>tm", "<CMD>Markview toggle<CR>", { desc = "[t]oggle
 -- Obsidian
 vim.keymap.set("n", "gf", function()
 	if require("obsidian").util.cursor_on_markdown_link() then
-		return "<cmd>ObsidianFollowLink<CR>"
+		return "<cmd>Obsidian follow_link<CR>"
 	else
 		return "gf"
 	end

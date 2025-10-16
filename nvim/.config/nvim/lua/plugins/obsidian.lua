@@ -17,6 +17,9 @@ return {
 	---@module 'obsidian'
 	---@type obsidian.config.ClientOpts
 	opts = {
+		-- No legacy commands warning
+		legacy_commands = false,
+
 		workspaces = {
 			{
 				name = "personal",
@@ -57,8 +60,6 @@ return {
 			blink = true,
 			min_chars = 2,
 		},
-
-		mappings = {},
 
 		templates = {
 			folder = "templates",
