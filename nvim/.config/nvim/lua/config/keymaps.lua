@@ -32,3 +32,6 @@ vim.keymap.set("n", "<leader>ot", "<CMD>Obsidian new_from_template<CR>", { desc 
 vim.keymap.set("n", "<leader>ob", "<CMD>Obsidian backlinks<CR>", { desc = "list [b]acklinks to the current note" })
 vim.keymap.set("n", "<leader>ol", "<CMD>Obsidian links<CR>", { desc = "list [l]inks in the current note" })
 vim.keymap.set("n", "<leader>of", "<CMD>Obsidian search<CR>", { desc = "[f]ind note" })
+
+-- Oil keymaps
+vim.keymap.set("n", "-", "<CMD>Oil --float<CR>", { desc = "open parent directory" })
