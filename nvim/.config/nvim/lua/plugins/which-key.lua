@@ -41,6 +41,7 @@ return {
 		spec = {
 			{ "<leader>f", group = "[f]ind" },
 			{ "<leader>h", group = "git [h]unk", mode = { "n", "v" } },
+			{ "<leader>l", group = "[l]atex" },
 			{ "<leader>o", group = "[o]bsidian" },
 			{ "<leader>p", group = "[p]review" },
 			{ "<leader>r", group = "[r]emote" },
