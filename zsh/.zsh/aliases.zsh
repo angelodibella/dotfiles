@@ -49,4 +49,5 @@ alias tad="tmux attach -d -t"
 
 # SSH
 alias ssha='eval "$(ssh-agent -s)"; ssh-add'
+alias sshk='eval "$(ssh-agent -k)"'
 

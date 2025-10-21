@@ -138,16 +138,6 @@ zstyle ':fzf-tab:complete:*:preview' fzf-preview 'bat --color=always -n --line-r
 # Section 6: External Tools & Hooks
 # ----------------------------------------------------------------------------
 
-# --- SSH Agent ---
-# Start ssh-agent only if it's not already running for the current user.
-if ! pgrep -u "$USER" ssh-agent > /dev/null; then
-    ssh-agent > ~/.ssh-agent-info
-fi
-# Source agent info if the file exists.
-if [[ -f ~/.ssh-agent-info ]]; then
-    source ~/.ssh-agent-info > /dev/null
-fi
-
 # --- Direnv & Zoxide ---
 # Initialize direnv for directory-specific environments.
 eval "$(direnv hook zsh)"

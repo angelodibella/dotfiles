@@ -47,6 +47,7 @@
   typeset -g POWERLEVEL9K_RIGHT_PROMPT_ELEMENTS=(
     # =========================[ Line #1 ]=========================
     status                  # exit code of the last command
+    ssh_agent               # ssh-agent running, and if so, whether it has a key added
     command_execution_time  # duration of the last command
     background_jobs         # presence of background jobs
     direnv                  # direnv status (https://direnv.net/)
@@ -1675,6 +1676,21 @@
     # instant_prompt_example. This will give us the same `example` prompt segment in the instant
     # and regular prompts.
     prompt_example
+  }
+
+  # Show ssh-agent status in the prompt:
+  # 🔑 = agent running and has keys
+  # 🔒 = agent running but no keys loaded
+  function prompt_ssh_agent() {
+    # Fast check: is there a UNIX socket?
+    if [[ -S "$SSH_AUTH_SOCK" ]]; then
+      # Does the agent have at least one identity?
+      if ssh-add -l >/dev/null 2>&1; then
+        p10k segment -i '🔑' -f yellow -t ''
+      else
+        p10k segment -i '🔒' -f red -t ''
+      fi
+    fi
   }
 
   # User-defined prompt segments can be customized the same way as built-in segments.
