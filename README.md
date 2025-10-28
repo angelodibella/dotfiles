@@ -3,7 +3,7 @@
 For Zsh, tmux and NeoVim, run
 
 ```bash
-yay -S direnv eza fd fzf neovim tmux-plugin-manager wget sshfs unzip zinit zip zoxide
+yay -S direnv eza fd fzf neovim tinyxxd tmux-plugin-manager wget sshfs unzip zinit zip zoxide
 ```
 
 for the rest of the packages, TODO!
