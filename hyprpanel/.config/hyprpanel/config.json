@@ -103,5 +103,6 @@
   "menus.dashboard.powermenu.sleep": "systemctl sleep",
   "bar.customModules.hypridle.onLabel": "",
   "bar.customModules.hypridle.offLabel": "",
-  "bar.customModules.hypridle.label": false
+  "bar.customModules.hypridle.label": false,
+  "theme.bar.buttons.modules.power.enableBorder": false
 }
