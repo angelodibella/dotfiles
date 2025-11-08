@@ -17,6 +17,9 @@ vim.keymap.set("t", "<Esc><Esc>", "<C-\\><C-n>", { desc = "Exit terminal mode" }
 
 --- Plugin Keymaps ---
 
+-- Hex
+vim.keymap.set("n", "<leader>tx", "<CMD>HexToggle<CR>", { desc = "[t]oggle he[x] representation" })
+
 -- Markview
 vim.keymap.set("n", "<leader>tm", "<CMD>Markview toggle<CR>", { desc = "[t]oggle [m]arkview rendering" })
 
