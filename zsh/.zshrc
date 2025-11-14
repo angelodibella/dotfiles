@@ -46,6 +46,9 @@ path=(
   "$HOME/.local/bin"
   "$HOME/.cargo/bin"
   "$HOME/.npm/global/bin"
+  /usr/bin/site_perl
+  /usr/bin/vendor_perl
+  /usr/bin/core_perl
   /usr/local/bin
   /usr/bin
   /bin
