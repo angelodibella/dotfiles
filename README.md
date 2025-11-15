@@ -317,3 +317,14 @@ esac
 
 Run `bat cache --build` to load themes.
 
+# Extra QoL Changes
+
+Zen/Firefox places a cookie file in `$HOME` every time a video is played in the browser. Add
+
+```ini
+cookie-file = /tmp/.pulse-cookie
+```
+
+to `/etc/pulse/client.conf`.
+
+---
