@@ -55,4 +55,6 @@ return {
 			end,
 		},
 	},
+	{ "akinsho/git-conflict.nvim", version = "*", config = true, opts = { default_mappings = true } },
+	{ "tpope/vim-fugitive" },
 }

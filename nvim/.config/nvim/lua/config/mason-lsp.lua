@@ -31,6 +31,9 @@ return {
 		},
 	},
 
+	-- Meson
+	mesonlsp = {},
+
 	-- Python
 	basedpyright = {
 		settings = {
