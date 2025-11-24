@@ -13,9 +13,20 @@ vim.keymap.set("n", "<leader>q", vim.diagnostic.setloclist, { desc = "open diagn
 -- Exit terminal mode in the builtin terminal with a shortcut that is a bit easier.
 -- NOTE: This won't work in all terminal emulators/tmux/etc. Try your own mapping
 -- or just use <C-\><C-n> to exit terminal mode.
-vim.keymap.set("t", "<Esc><Esc>", "<C-\\><C-n>", { desc = "Exit terminal mode" })
+vim.keymap.set("t", "<Esc><Esc>", "<C-\\><C-n>", { desc = "exit terminal mode" })
 
 --- Plugin Keymaps ---
+
+-- Git
+vim.keymap.set("n", "<leader>gs", "<CMD>Git<CR>", { desc = "[g]it [s]tatus" })
+vim.keymap.set("n", "<leader>gc", "<CMD>Git commit<CR>", { desc = "[g]it [c]ommit" })
+vim.keymap.set("n", "<leader>gp", "<CMD>Git pull<CR>", { desc = "[g]it [p]ull" })
+vim.keymap.set("n", "<leader>gP", "<CMD>Git push<CR>", { desc = "[g]it [P]ush" })
+vim.keymap.set("n", "<leader>gd", "<CMD>Gvdiffsplit<CR>", { desc = "[g]it [d]iff" })
+vim.keymap.set("n", "<leader>gw", "<CMD>Gwrite<CR>", { desc = "[g]it [w]rite" })
+vim.keymap.set("n", "<leader>gr", "<CMD>G restore --staged %<CR>", { desc = "[g]it [r]estore staged" })
+vim.keymap.set("n", "<leader>gR", "<CMD>Gread<CR>", { desc = "[g]it [R]ead" })
+vim.keymap.set("n", "<leader>gl", "<CMD>Gllog<CR>", { desc = "[g]it [l]og" })
 
 -- Hex
 vim.keymap.set("n", "<leader>tx", "<CMD>HexToggle<CR>", { desc = "[t]oggle he[x] representation" })
