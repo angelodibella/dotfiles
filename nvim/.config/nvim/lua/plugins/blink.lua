@@ -3,6 +3,7 @@ return {
 	event = "VimEnter",
 	version = "1.*",
 	dependencies = {
+		"Kaiser-Yang/blink-cmp-avante",
 		-- Snippet Engine
 		{
 			"L3MON4D3/LuaSnip",
@@ -82,9 +83,16 @@ return {
 		},
 
 		sources = {
-			default = { "lsp", "path", "snippets", "lazydev" },
+			default = { "avante", "lsp", "path", "snippets", "lazydev" },
 			providers = {
 				lazydev = { module = "lazydev.integrations.blink", score_offset = 100 },
+				avante = {
+					module = "blink-cmp-avante",
+					name = "Avante",
+					opts = {
+						-- options for blink-cmp-avante
+					},
+				},
 			},
 		},
 
