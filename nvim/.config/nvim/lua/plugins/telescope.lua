@@ -17,6 +17,36 @@ return {
 	config = function()
 		require("telescope").setup({
 			defaults = {
+
+				selection_caret = "  ",
+				sorting_strategy = "ascending",
+				layout_strategy = "flex",
+				layout_config = {
+					horizontal = {
+						prompt_position = "top",
+						-- height = 0.8,
+						-- width = 0.70,
+						-- preview_width = 0.45
+					},
+				},
+				file_ignore_patterns = {
+					"^%.git/",
+					"^%.git$",
+					".DS_Store",
+				},
+				mappings = {
+					n = {
+						["<C-c>"] = require("telescope.actions").close,
+					},
+					i = {
+						["<C-s>"] = "select_horizontal",
+					},
+				},
+				-- winblend = 10,
+				border = true,
+				borderchars = { " ", " ", " ", " ", " ", " ", " ", " " },
+				color_devicons = true,
+
 				file_ignore_patterns = {
 					"^.git/",
 					"^.vscode/",
@@ -39,7 +69,10 @@ return {
 			},
 			extensions = {
 				["ui-select"] = {
-					require("telescope.themes").get_dropdown(),
+					layout_config = {
+						width = 100,
+						height = 30,
+					},
 				},
 			},
 		})
