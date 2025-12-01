@@ -57,13 +57,25 @@ return {
 			},
 			float = {
 				padding = 2,
-				max_width = 90,
+				max_width = 160,
 				max_height = 0,
 			},
 			win_options = {
 				wrap = true,
 				winbar = "%!v:lua.get_oil_winbar()",
 				winblend = 0,
+			},
+			preview_win = {
+				-- Whether the preview window is automatically updated when the cursor is moved
+				update_on_cursor_moved = true,
+				-- How to open the preview window "load"|"scratch"|"fast_scratch"
+				preview_method = "fast_scratch",
+				-- Window-local options to use for preview window buffers
+				win_options = {
+					wrap = false,
+					winbar = " ",
+					winblend = 0,
+				},
 			},
 			keymaps = {
 				["<C-c>"] = false,

@@ -48,7 +48,7 @@ vim.keymap.set("n", "<leader>ol", "<CMD>Obsidian links<CR>", { desc = "list [l]i
 vim.keymap.set("n", "<leader>of", "<CMD>Obsidian search<CR>", { desc = "[f]ind note" })
 
 -- Oil
-vim.keymap.set("n", "-", "<CMD>Oil --float<CR>", { desc = "open parent directory" })
+vim.keymap.set("n", "-", "<CMD>Oil --float --preview<CR>", { desc = "open parent directory" })
 
 -- Remote SSHFS
 vim.keymap.set("n", "<leader>rc", "<CMD>RemoteSSHFSConnect<CR>", { desc = "[c]onnect to remote" })
