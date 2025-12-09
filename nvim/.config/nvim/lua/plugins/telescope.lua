@@ -29,11 +29,6 @@ return {
 						-- preview_width = 0.45
 					},
 				},
-				file_ignore_patterns = {
-					"^%.git/",
-					"^%.git$",
-					".DS_Store",
-				},
 				mappings = {
 					n = {
 						["<C-c>"] = require("telescope.actions").close,
@@ -58,6 +53,10 @@ return {
 					"%.png",
 					"%.jpg",
 					"%.jpeg",
+
+					-- Compilation
+					"build/",
+					"target/",
 				},
 			},
 			pickers = {
