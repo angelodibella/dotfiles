@@ -9,6 +9,9 @@ return {
 		},
 	},
 
+	-- Debug
+	codelldb = {},
+
 	-- LaTeX
 	latexindent = {},
 	vale = {},
