@@ -317,6 +317,32 @@ esac
 
 Run `bat cache --build` to load themes.
 
+## keyd
+
+Install `keyd` with `sudo pacman -S keyd`. Edit `/etc/keyd/default.conf` to contain the following:
+
+```ini
+[ids]
+*
+
+[main]
+# Swap \ and # keys
+102nd = backslash
+backslash = 102nd
+
+# Map ' key to " (Shift+2 on UK)
+apostrophe = S-2
+
+[shift]
+# Map Shift+2 to @ (Shift+' on UK)
+2 = S-apostrophe
+
+# Map Shift+' to ' (Unshifted ' on UK)
+apostrophe = apostrophe
+```
+
+then run `sudo systemctl enable keyd --now` and `sudo systemctl restart keyd`.
+
 # Extra QoL Changes
 
 Zen/Firefox places a cookie file in `$HOME` every time a video is played in the browser. Add
