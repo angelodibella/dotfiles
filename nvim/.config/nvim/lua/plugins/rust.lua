@@ -1,19 +1,24 @@
 return {
 	"mrcjkb/rustaceanvim",
-	version = "^6", -- Recommended
-	lazy = false, -- This plugin is already lazy
-	ft = "rust",
+	version = "^6",
+	ft = "rust", -- load only for Rust buffers
+	lazy = true, -- important: don't run at startup
 	config = function()
-		local mason_registry = require("mason-registry")
-		local codelldb = mason_registry.get_package("codelldb")
-		local extension_path = codelldb:get_install_path() .. "/extension/"
-		local codelldb_path = extension_path .. "adapter/codelldb"
-		local liblldb_path = extension_path .. "lldb/lib/liblldb.so"
 		local cfg = require("rustaceanvim.config")
+
+		local codelldb = vim.fn.exepath("codelldb")
+		if codelldb == "" then
+			-- codelldb isn't installed (or not on PATH); avoid crashing Neovim startup
+			return
+		end
+
+		local sys = vim.loop.os_uname().sysname
+		local ext = (sys == "Linux") and ".so" or (sys == "Darwin") and ".dylib" or ".dll"
+		local liblldb = vim.fn.expand("$MASON/opt/lldb/lib/liblldb" .. ext)
 
 		vim.g.rustaceanvim = {
 			dap = {
-				adapter = cfg.get_codelldb_adapter(codelldb_path, liblldb_path),
+				adapter = cfg.get_codelldb_adapter(codelldb, liblldb),
 			},
 		}
 	end,
