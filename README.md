@@ -336,6 +336,14 @@ apostrophe = S-2
 
 then run `sudo systemctl enable keyd --now` and `sudo systemctl restart keyd`.
 
+## Rust
+
+Run `yay -S rustup` and configure. For NeoVim to have a working Rust LSP, ensure `rust-analyzer` is installed:
+
+```bash
+rustup component add rust-analyzer
+```
+
 # Extra QoL Changes
 
 Zen/Firefox places a cookie file in `$HOME` every time a video is played in the browser. Add
