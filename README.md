@@ -326,19 +326,12 @@ Install `keyd` with `sudo pacman -S keyd`. Edit `/etc/keyd/default.conf` to cont
 *
 
 [main]
-# Swap \ and # keys
 102nd = backslash
 backslash = 102nd
 
-# Map ' key to " (Shift+2 on UK)
-apostrophe = S-2
-
 [shift]
-# Map Shift+2 to @ (Shift+' on UK)
 2 = S-apostrophe
-
-# Map Shift+' to ' (Unshifted ' on UK)
-apostrophe = apostrophe
+apostrophe = S-2
 ```
 
 then run `sudo systemctl enable keyd --now` and `sudo systemctl restart keyd`.
