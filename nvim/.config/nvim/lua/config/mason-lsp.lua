@@ -1,55 +1,25 @@
 return {
-	-- Bash and Zsh
-	bashls = {},
-
-	-- C++
+	-- bashls = {}, -- Optional: bashls is often redundant if you have shellcheck
 	clangd = {
-		init_options = {
-			fallbackFlags = { "--std=c++23" },
-		},
+		init_options = { fallbackFlags = { "--std=c++23" } },
 	},
-
-	-- Debug
-	codelldb = {},
-
-	-- LaTeX
-	latexindent = {},
-	vale = {},
-
-	-- Lua
+	-- latexindent = {}, -- Not an LSP! Move to extras if you just need the tool installed.
+	texlab = {}, -- Use texlab as the actual LaTeX LSP
 	lua_ls = {
 		settings = {
 			Lua = {
-				completion = {
-					callSnippet = "Replace",
-				},
+				completion = { callSnippet = "Replace" },
+				diagnostics = { globals = { "vim" } }, -- Fix confusing "undefined global vim"
 			},
 		},
 	},
-
-	-- Meson
 	mesonlsp = {},
-
-	-- Python
 	basedpyright = {
 		settings = {
-			basedpyright = {
-				-- Let Ruff do this
-				disableOrganizeImports = true,
-			},
-			python = {
-				analysis = {
-					-- Use Ruff for linting
-					ignore = { "*" },
-				},
-			},
+			basedpyright = { disableOrganizeImports = true },
+			python = { analysis = { ignore = { "*" } } },
 		},
 	},
-	ruff = {}, -- Use for linting, formatting and import organization
-
-	-- Rust
-	rust_analyzer = {},
-
-	-- TOML
+	ruff = {},
 	taplo = {},
 }

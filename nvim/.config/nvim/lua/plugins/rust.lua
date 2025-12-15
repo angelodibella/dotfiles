@@ -1,24 +1,32 @@
 return {
 	"mrcjkb/rustaceanvim",
 	version = "^6",
-	ft = "rust", -- load only for Rust buffers
-	lazy = true, -- important: don't run at startup
+	ft = { "rust" },
 	config = function()
-		local cfg = require("rustaceanvim.config")
+		local ra_path = vim.fn.trim(vim.fn.system("rustup which rust-analyzer"))
 
-		local codelldb = vim.fn.exepath("codelldb")
-		if codelldb == "" then
-			-- codelldb isn't installed (or not on PATH); avoid crashing Neovim startup
-			return
-		end
+		local mason_path = vim.fn.stdpath("data") .. "/mason"
+		local codelldb_root = mason_path .. "/packages/codelldb"
+		local codelldb_path = codelldb_root .. "/extension/adapter/codelldb"
 
 		local sys = vim.loop.os_uname().sysname
 		local ext = (sys == "Linux") and ".so" or (sys == "Darwin") and ".dylib" or ".dll"
-		local liblldb = vim.fn.expand("$MASON/opt/lldb/lib/liblldb" .. ext)
+		local liblldb_path = codelldb_root .. "/extension/lldb/lib/liblldb" .. ext
 
 		vim.g.rustaceanvim = {
+			server = {
+				cmd = { ra_path },
+				default_settings = {
+					["rust-analyzer"] = {
+						checkOnSave = {
+							command = "clippy",
+						},
+					},
+				},
+			},
+
 			dap = {
-				adapter = cfg.get_codelldb_adapter(codelldb, liblldb),
+				adapter = require("rustaceanvim.config").get_codelldb_adapter(codelldb_path, liblldb_path),
 			},
 		}
 	end,
