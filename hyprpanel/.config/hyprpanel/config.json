@@ -98,7 +98,7 @@
     "/"
   ],
   "bar.workspaces.reverse_scroll": false,
-  "menus.dashboard.stats.enable_gpu": true,
+  "menus.dashboard.stats.enable_gpu": false,
   "bar.workspaces.monitorSpecific": false,
   "menus.dashboard.powermenu.sleep": "systemctl sleep",
   "bar.customModules.hypridle.onLabel": "",
