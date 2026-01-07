@@ -50,6 +50,15 @@ vim.keymap.set("n", "<leader>of", "<CMD>Obsidian search<CR>", { desc = "[f]ind n
 -- Oil
 vim.keymap.set("n", "-", "<CMD>Oil --float --preview<CR>", { desc = "open parent directory" })
 
+-- Refactoring
+-- vim.keymap.set("x", "<leader>re", ":Refactor extract ")
+-- vim.keymap.set("x", "<leader>rf", ":Refactor extract_to_file ")
+-- vim.keymap.set("x", "<leader>rv", ":Refactor extract_var ")
+-- vim.keymap.set({ "n", "x" }, "<leader>ri", ":Refactor inline_var")
+-- vim.keymap.set("n", "<leader>rI", ":Refactor inline_func")
+-- vim.keymap.set("n", "<leader>rb", ":Refactor extract_block")
+-- vim.keymap.set("n", "<leader>rbf", ":Refactor extract_block_to_file")
+
 -- Remote SSHFS
 vim.keymap.set("n", "<leader>rc", "<CMD>RemoteSSHFSConnect<CR>", { desc = "[c]onnect to remote" })
 vim.keymap.set("n", "<leader>rd", "<CMD>RemoteSSHFSDisconnect<CR>", { desc = "[d]isconnect from remote" })
