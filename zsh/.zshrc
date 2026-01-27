@@ -57,6 +57,19 @@ path=(
 )
 export PATH
 
+# Arch 'cuda' typically installs to /opt/cuda and nvcc lives in /opt/cuda/bin.
+# Only enable if nvcc exists (or if Arch's profile script is present).
+if ! command -v nvcc >/dev/null 2>&1; then
+  if [[ -x /opt/cuda/bin/nvcc ]]; then
+    export CUDA_HOME=/opt/cuda
+    typeset -U path
+    path=("$CUDA_HOME/bin" $path)
+  elif [[ -r /etc/profile.d/cuda.sh ]]; then
+    # Some systems may provide the profile script; source it if present.
+    source /etc/profile.d/cuda.sh
+  fi
+fi
+
 # ----------------------------------------------------------------------------
 # Section 2: Powerlevel10k Instant Prompt
 # (Must be sourced very early for optimal performance)

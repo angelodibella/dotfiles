@@ -54,6 +54,8 @@ return {
 					"%.jpg",
 					"%.jpeg",
 
+					-- TODO: .venv and .cache still appear if not in parent directory
+
 					-- Compilation
 					"build/",
 					"target/",
