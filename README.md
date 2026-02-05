@@ -44,6 +44,15 @@ Follow these steps to make sure everything works as expected.
 
 **Note:** These are not exhaustive! However, they are the trickiest steps I've found.
 
+## ydotool
+
+Run the following:
+
+```sh
+systemctl --user enable --now ydotool.service
+sudo usermod -aG input "$USER"
+```
+
 ## Power Configuration
 
 For computers with batteries (e.g., laptops), edit `/etc/systemd/logind.conf` such that the following lines are uncommented and have the following exact parameters:
