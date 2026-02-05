@@ -2,3 +2,5 @@ rclone/
 git/
 .git-private/
 nvim/.config/nvim/lazy-lock.json
+zsh/.zsh/.histfile
+zsh/.zsh/.zcompdump
