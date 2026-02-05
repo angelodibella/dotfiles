@@ -53,6 +53,8 @@ systemctl --user enable --now ydotool.service
 sudo usermod -aG input "$USER"
 ```
 
+Security note: being in the input group can grant broad access to input devices (keylogging risk). If this is a laptop you don’t fully trust other local users on, consider the “uaccess” approach instead of input group—but the above is the common simple route.
+
 ## Power Configuration
 
 For computers with batteries (e.g., laptops), edit `/etc/systemd/logind.conf` such that the following lines are uncommented and have the following exact parameters:
