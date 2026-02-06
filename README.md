@@ -57,35 +57,48 @@ Security note: being in the input group can grant broad access to input devices 
 
 ## Power Configuration
 
-For computers with batteries (e.g., laptops), edit `/etc/systemd/logind.conf` such that the following lines are uncommented and have the following exact parameters:
+Create `/etc/systemd/logind.conf.d/80-power.conf` with the following content:
 
 ```ini
 [Login]
+# Prefer suspend-then-hibernate for the generic "sleep" action
 SleepOperation=suspend-then-hibernate suspend hibernate
+
+# Lid close: use suspend-then-hibernate on battery
+HandleLidSwitch=suspend-then-hibernate
+
+# On AC: just suspend (typically what you want when plugged in)
+HandleLidSwitchExternalPower=suspend
+
+# When docked / multiple displays: ignore lid (avoid black-screening your dock setup)
+HandleLidSwitchDocked=ignore
+
+# Power button: short press -> suspend-then-hibernate; long press -> hard poweroff
 HandlePowerKey=suspend-then-hibernate
 HandlePowerKeyLongPress=poweroff
-HandleLidSwitch=suspend-then-hibernate
+
+# Let your compositor (hypridle) manage idle; keep logind idle action off
 IdleAction=ignore
 ```
 
-then, similarly for `/etc/systemd/sleep.conf` with
+Create `/etc/systemd/sleep.conf.d/80-sleep.conf` with the following content:
 
 ```ini
 [Sleep]
 AllowSuspendThenHibernate=yes
 AllowHybridSleep=no
+
+# Hibernate after 2h of suspend (systemd's documented default if not set)
 HibernateDelaySec=2h
-HibernateOnACPower=yes
+
+# When plugged in, stay suspended (don't hibernate just because the timer elapsed)
+HibernateOnACPower=no
+
+# Prefer deep sleep when available; fall back to s2idle if deep isn't supported
+MemorySleepMode=deep s2idle
 ```
 
-After these modifications, run
-
-```bash
-sudo systemctl restart systemd-logind.service
-sudo systemctl daemon-reload
-```
-
-and, for safety, reboot.
+Then, reboot.
 
 ### Verification
 
