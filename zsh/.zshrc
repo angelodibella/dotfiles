@@ -117,6 +117,9 @@ setopt APPEND_HISTORY SHARE_HISTORY HIST_IGNORE_SPACE HIST_SAVE_NO_DUPS HIST_IGN
 # --- Keybindings ---
 bindkey -v  # Use Vim keybindings for command-line editing
 
+# Accept zsh-autosuggestions with Ctrl+Y
+bindkey -M viins '^Y' autosuggest-accept
+
 # --- Aliases ---
 # Source aliases from a separate file for better organization.
 [[ -f ~/.zsh/aliases.zsh ]] && source ~/.zsh/aliases.zsh
