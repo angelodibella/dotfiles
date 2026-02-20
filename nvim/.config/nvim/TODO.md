@@ -1,0 +1,1 @@
+- [nvim] Search for :h index then search for i_ (insert-mode mappings are indexed nicely) and edit/add to config if needed.
