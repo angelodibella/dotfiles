@@ -378,4 +378,6 @@ cookie-file = /tmp/.pulse-cookie
 
 to `/etc/pulse/client.conf`.
 
----
+## Power Management
+
+Read https://github.com/basecamp/omarchy/discussions/3907.
