@@ -1,23 +1,43 @@
+-- Declarative list of LSP servers we want installed and enabled.
+-- Per-server overrides live in `~/.config/nvim/lsp/<name>.lua` (Neovim 0.11+
+-- runtime path); no file needed for servers we're happy with the defaults on.
+-- `rust_analyzer` is intentionally absent: rustaceanvim owns its lifecycle.
+local servers = {
+	"clangd",
+	"texlab",
+	"lua_ls",
+	"mesonlsp",
+	"basedpyright",
+	"ruff",
+	"taplo",
+}
+
 return {
 	"neovim/nvim-lspconfig",
 	dependencies = {
 		{ "mason-org/mason.nvim", opts = {} },
+		-- mason-lspconfig is NOT setup() here (we don't need its automatic_enable
+		-- behaviour — vim.lsp.enable is authoritative). It's still listed so
+		-- lazy installs it, which lets mason-tool-installer's pcall require
+		-- find the lspconfig→mason package name mappings.
 		"mason-org/mason-lspconfig.nvim",
 		"WhoIsSethDaniel/mason-tool-installer.nvim",
 		{ "j-hui/fidget.nvim", opts = {} },
 		"saghen/blink.cmp",
 	},
 	config = function()
-		-- Setup Diagnostic UI
-		local signs = { ERROR = " ", WARN = " ", HINT = " ", INFO = " " }
+		-- Diagnostic UI
 		vim.diagnostic.config({
 			severity_sort = true,
 			float = { border = "rounded", source = "if_many" },
 			underline = { severity = vim.diagnostic.severity.ERROR },
 			signs = {
-				text = vim.tbl_map(function(icon)
-					return icon
-				end, signs),
+				text = {
+					[vim.diagnostic.severity.ERROR] = " ",
+					[vim.diagnostic.severity.WARN] = " ",
+					[vim.diagnostic.severity.INFO] = " ",
+					[vim.diagnostic.severity.HINT] = " ",
+				},
 			},
 			virtual_text = {
 				source = "if_many",
@@ -28,16 +48,15 @@ return {
 			},
 		})
 
-		-- LspAttach Autocommand (Keymaps & Highlights)
+		-- LspAttach: keymaps, reference highlight, inlay hints
 		vim.api.nvim_create_autocmd("LspAttach", {
-			group = vim.api.nvim_create_augroup("kickstart-lsp-attach", { clear = true }),
+			group = vim.api.nvim_create_augroup("user-lsp-attach", { clear = true }),
 			callback = function(event)
 				local map = function(keys, func, desc)
 					vim.keymap.set("n", keys, func, { buffer = event.buf, desc = "LSP: " .. desc })
 				end
 				local builtin = require("telescope.builtin")
 
-				-- Keymaps
 				map("gd", builtin.lsp_definitions, "[G]oto [D]efinition")
 				map("gr", builtin.lsp_references, "[G]oto [R]eferences")
 				map("gI", builtin.lsp_implementations, "[G]oto [I]mplementation")
@@ -49,10 +68,11 @@ return {
 				map("K", vim.lsp.buf.hover, "Hover Documentation")
 				map("gD", vim.lsp.buf.declaration, "[G]oto [D]eclaration")
 
-				-- Highlight references under cursor
 				local client = vim.lsp.get_client_by_id(event.data.client_id)
+
+				-- Highlight references under cursor
 				if client and client:supports_method(vim.lsp.protocol.Methods.textDocument_documentHighlight) then
-					local highlight_augroup = vim.api.nvim_create_augroup("kickstart-lsp-highlight", { clear = false })
+					local highlight_augroup = vim.api.nvim_create_augroup("user-lsp-highlight", { clear = false })
 					vim.api.nvim_create_autocmd({ "CursorHold", "CursorHoldI" }, {
 						buffer = event.buf,
 						group = highlight_augroup,
@@ -64,10 +84,10 @@ return {
 						callback = vim.lsp.buf.clear_references,
 					})
 					vim.api.nvim_create_autocmd("LspDetach", {
-						group = vim.api.nvim_create_augroup("kickstart-lsp-detach", { clear = true }),
+						group = vim.api.nvim_create_augroup("user-lsp-detach", { clear = true }),
 						callback = function(event2)
 							vim.lsp.buf.clear_references()
-							vim.api.nvim_clear_autocmds({ group = "kickstart-lsp-highlight", buffer = event2.buf })
+							vim.api.nvim_clear_autocmds({ group = "user-lsp-highlight", buffer = event2.buf })
 						end,
 					})
 				end
@@ -81,32 +101,22 @@ return {
 			end,
 		})
 
-		-- Mason Setup
-		local servers = require("config.mason-lsp")
-		local extra_tools = require("config.mason-extra")
-
-		-- Merge servers and tools into one list for installation
-		local ensure_installed = vim.tbl_keys(servers or {})
-		vim.list_extend(ensure_installed, extra_tools)
-
+		-- Install every LSP server + extra tool via mason-tool-installer.
+		-- It maps lspconfig names (e.g. lua_ls) to mason packages (lua-language-server).
+		local ensure_installed = vim.list_extend(vim.deepcopy(servers), require("config.mason-extra"))
 		require("mason-tool-installer").setup({ ensure_installed = ensure_installed })
 
-		-- LSP Server Setup
-		local capabilities = require("blink.cmp").get_lsp_capabilities()
-		require("mason-lspconfig").setup({
-			handlers = {
-				function(server_name)
-					-- TRAP: "rust_analyzer" is the internal Lua name for lspconfig.
-					-- We must catch this exact string to stop lspconfig from starting its own instance.
-					if server_name == "rust_analyzer" then
-						return
-					end
-
-					local server = servers[server_name] or {}
-					server.capabilities = vim.tbl_deep_extend("force", {}, capabilities, server.capabilities or {})
-					require("lspconfig")[server_name].setup(server)
-				end,
-			},
+		-- Set defaults that apply to every server: blink.cmp capabilities merged
+		-- on top of the built-in client capabilities. Per-server overrides live
+		-- in `lsp/<name>.lua` and are merged automatically by Neovim.
+		vim.lsp.config("*", {
+			capabilities = require("blink.cmp").get_lsp_capabilities(),
 		})
+
+		-- Enable everything. Neovim reads nvim-lspconfig's `lsp/<name>.lua` from
+		-- runtimepath for defaults, then our `lsp/<name>.lua` overrides, then the
+		-- `*` defaults above. `vim.lsp.enable` also hooks FileType autocmds so
+		-- servers attach lazily when a matching buffer opens.
+		vim.lsp.enable(servers)
 	end,
 }

@@ -37,11 +37,11 @@ vim.keymap.set("n", "<leader>tm", "<CMD>Markview toggle<CR>", { desc = "[t]oggle
 -- Obsidian
 vim.keymap.set("n", "gf", function()
 	if require("obsidian").util.cursor_on_markdown_link() then
-		return "<cmd>Obsidian follow_link<CR>"
+		return "<CMD>Obsidian follow_link<CR>"
 	else
 		return "gf"
 	end
-end, { noremap = false, expr = true })
+end, { noremap = false, expr = true, desc = "follow obsidian link or gf" })
 vim.keymap.set("n", "<leader>ot", "<CMD>Obsidian new_from_template<CR>", { desc = "new note from [t]emplate" })
 vim.keymap.set("n", "<leader>ob", "<CMD>Obsidian backlinks<CR>", { desc = "list [b]acklinks to the current note" })
 vim.keymap.set("n", "<leader>ol", "<CMD>Obsidian links<CR>", { desc = "list [l]inks in the current note" })
@@ -49,15 +49,6 @@ vim.keymap.set("n", "<leader>of", "<CMD>Obsidian search<CR>", { desc = "[f]ind n
 
 -- Oil
 vim.keymap.set("n", "-", "<CMD>Oil --float --preview<CR>", { desc = "open parent directory" })
-
--- Refactoring
--- vim.keymap.set("x", "<leader>re", ":Refactor extract ")
--- vim.keymap.set("x", "<leader>rf", ":Refactor extract_to_file ")
--- vim.keymap.set("x", "<leader>rv", ":Refactor extract_var ")
--- vim.keymap.set({ "n", "x" }, "<leader>ri", ":Refactor inline_var")
--- vim.keymap.set("n", "<leader>rI", ":Refactor inline_func")
--- vim.keymap.set("n", "<leader>rb", ":Refactor extract_block")
--- vim.keymap.set("n", "<leader>rbf", ":Refactor extract_block_to_file")
 
 -- Remote SSHFS
 vim.keymap.set("n", "<leader>rc", "<CMD>RemoteSSHFSConnect<CR>", { desc = "[c]onnect to remote" })

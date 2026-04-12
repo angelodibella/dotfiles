@@ -90,13 +90,10 @@ return {
 
 		snippets = { preset = "luasnip" },
 
-		-- Blink.cmp includes an optional, recommended rust fuzzy matcher,
-		-- which automatically downloads a prebuilt binary when enabled.
-		--
-		-- By default, we use the Lua implementation instead, but you may enable
-		-- the rust implementation via `'prefer_rust_with_warning'`
-		--
-		-- See :h blink-cmp-config-fuzzy for more information
+		-- Prefer blink.cmp's native Rust fuzzy matcher (auto-downloads a
+		-- prebuilt binary), falling back to the Lua implementation with a
+		-- warning if the binary isn't available.
+		-- See :h blink-cmp-config-fuzzy for details.
 		fuzzy = { implementation = "prefer_rust_with_warning" },
 
 		-- Shows a signature help window while you type arguments for a function

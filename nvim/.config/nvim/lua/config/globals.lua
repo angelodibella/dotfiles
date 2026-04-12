@@ -2,5 +2,5 @@
 vim.g.mapleader = " "
 vim.g.maplocalleader = " "
 
--- Set background to light (unsure)
-vim.g.background = "light"
+-- Nerd font is available (drives icon rendering in telescope, which-key, etc.)
+vim.g.have_nerd_font = true

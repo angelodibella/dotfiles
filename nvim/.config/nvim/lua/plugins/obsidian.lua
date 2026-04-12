@@ -2,14 +2,12 @@ return {
 	"obsidian-nvim/obsidian.nvim",
 	version = "*",
 	lazy = true,
-	-- event = {
-	-- 	"BufReadPre " .. vim.fn.expand("~") .. "/Obsidian/personal/*.md",
-	-- 	"BufNewFile " .. vim.fn.expand("~") .. "/Obsidian/personal/*.md",
-	-- },
-	event = "VimEnter", -- to access notes from anywhere
+	-- Load on VimEnter so the `Obsidian …` commands and the `gf` follow-link
+	-- keymap are available from any buffer, not just notes in the vault.
+	event = "VimEnter",
 	dependencies = {
 		"nvim-lua/plenary.nvim",
-		"Saghen/blink.cmp",
+		"saghen/blink.cmp",
 		"nvim-telescope/telescope.nvim",
 		"nvim-treesitter/nvim-treesitter",
 		"OXY2DEV/markview.nvim",
@@ -34,7 +32,7 @@ return {
 			return title:gsub(" ", "-"):gsub("[^A-Za-z0-9-]", ""):lower()
 		end,
 
-		preferred_link_style = "wiki",
+		link = { style = "wiki" },
 
 		picker = {
 			name = "telescope.nvim",
@@ -51,10 +49,6 @@ return {
 				insert_tag = "<C-l>",
 			},
 		},
-
-		-- backlinks = {
-		-- 	parse_headers = true,
-		-- },
 
 		completion = {
 			blink = true,

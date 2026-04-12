@@ -9,7 +9,7 @@ return {
 		local codelldb_root = mason_path .. "/packages/codelldb"
 		local codelldb_path = codelldb_root .. "/extension/adapter/codelldb"
 
-		local sys = vim.loop.os_uname().sysname
+		local sys = vim.uv.os_uname().sysname
 		local ext = (sys == "Linux") and ".so" or (sys == "Darwin") and ".dylib" or ".dll"
 		local liblldb_path = codelldb_root .. "/extension/lldb/lib/liblldb" .. ext
 
@@ -18,13 +18,12 @@ return {
 				cmd = { ra_path },
 				default_settings = {
 					["rust-analyzer"] = {
-						checkOnSave = {
+						check = {
 							command = "clippy",
 						},
 					},
 				},
 			},
-
 			dap = {
 				adapter = require("rustaceanvim.config").get_codelldb_adapter(codelldb_path, liblldb_path),
 			},
