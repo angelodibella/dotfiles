@@ -8,6 +8,10 @@ return {
 		local alpha = require("alpha")
 		local dashboard = require("alpha.themes.startify")
 
+		-- startify defaults to `mini.icons` as the icon provider and warns
+		-- when it isn't installed. We ship nvim-web-devicons instead.
+		dashboard.file_icons.provider = "devicons"
+
 		dashboard.section.header.val = {
 			[[                                                                       ]],
 			[[                                                                       ]],
