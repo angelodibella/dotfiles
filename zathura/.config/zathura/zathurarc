@@ -1,3 +1,15 @@
 include catppuccin-mocha
 set selection-clipboard clipboard
 set smooth-scroll true
+
+# Vim-like inverse SyncTeX. Default <C-LeftClick> still works for precise
+# per-glyph jumps; these keyboard alternatives cover "I want source for…":
+#   gs — "go source": jump to the source line covering the top of the
+#         current page. Keyboard-only, coarse (page-level).
+#   gS — "go selection": take the current clipboard contents (populated by
+#         `selection-clipboard clipboard` when you mouse-drag to highlight
+#         text in the PDF) and run it as a `/search` in the active nvim.
+#         Precise, but requires a mouse-drag selection first and breaks
+#         where PDF rendering diverges from source (ligatures, math, refs).
+map gs exec "zathura-inverse-search $PAGE $FILE"
+map gS exec "zathura-search-selection"

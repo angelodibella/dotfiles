@@ -76,7 +76,14 @@ return {
 					end
 					-- pcall so buffers opened before the async install finishes
 					-- don't raise; they'll pick up highlighting after :e.
-					if pcall(vim.treesitter.start, buf, lang) then
+					if not pcall(vim.treesitter.start, buf, lang) then
+						return
+					end
+					-- Only swap in the TS indent expression when an `indents.scm`
+					-- actually exists for this language; otherwise the expression
+					-- returns -1 for every line and silently shadows filetype
+					-- indent plugins (e.g. VimTeX's for .tex).
+					if vim.treesitter.query.get(lang, "indents") then
 						vim.bo[buf].indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()"
 					end
 				end,

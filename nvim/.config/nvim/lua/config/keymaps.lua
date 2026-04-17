@@ -1,3 +1,12 @@
+-- Drop Neovim's built-in insert-mode <Tab>/<S-Tab> mappings (they're the
+-- vim.snippet.jump handlers from /usr/share/nvim/runtime/lua/vim/_defaults.lua).
+-- blink.cmp's fallback chain CACHES the first non-blink mapping it finds at
+-- load time; if these defaults are still around when blink boots, tabout.nvim
+-- (which loads later) never gets a chance to run on Tab. LuaSnip placeholders
+-- still work because blink's `snippet_forward` runs before its fallback.
+pcall(vim.keymap.del, "i", "<Tab>")
+pcall(vim.keymap.del, "i", "<S-Tab>")
+
 -- Move around windows
 vim.keymap.set("n", "<C-S-h>", "<C-w>H", { desc = "Move window to the left" })
 vim.keymap.set("n", "<C-S-j>", "<C-w>J", { desc = "Move window to the lower" })

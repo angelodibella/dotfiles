@@ -19,7 +19,10 @@ return {
 	},
 	{
 		"abecodes/tabout.nvim",
-		event = "InsertCharPre",
+		-- InsertEnter (not InsertCharPre) so tabout is loaded and its Tab
+		-- mapping is installed before the user's first keystroke — otherwise
+		-- the very first Tab in a fresh insert session is missed.
+		event = "InsertEnter",
 		dependencies = {
 			"nvim-treesitter/nvim-treesitter",
 			"L3MON4D3/LuaSnip",
@@ -40,9 +43,14 @@ return {
 				{ open = "(", close = ")" },
 				{ open = "[", close = "]" },
 				{ open = "{", close = "}" },
+				{ open = "$", close = "$" }, -- LaTeX inline math
 			},
 			ignore_beginning = true,
-			exclude = {},
+			-- tex is handled by blink.cmp's own <Tab> chain (see
+			-- lua/plugins/blink.lua). Excluding it here prevents tabout's
+			-- treesitter walk-to-parent logic from teleporting the cursor
+			-- past `\end{document}` when Tab is pressed outside a pair.
+			exclude = { "tex" },
 		},
 	},
 	{

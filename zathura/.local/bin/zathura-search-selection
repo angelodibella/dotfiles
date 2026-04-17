@@ -1,0 +1,47 @@
+#!/bin/sh
+# Precise SyncTeX-ish reverse search from zathura using the clipboard.
+#
+# Workflow:
+#   1. In zathura, mouse-drag to highlight a word/line. Your `set
+#      selection-clipboard clipboard` line means the selection lands in the
+#      system clipboard automatically.
+#   2. Press `gS` (bound via zathurarc). This script reads the clipboard and
+#      asks the nvim instance that launched zathura to `/search` for that
+#      text in its current buffer — landing you on the exact token instead
+#      of the page-top approximation that plain `gs` uses.
+#
+# Caveats (fundamental; sioyek handles some of these natively):
+#   - Breaks when the PDF renders glyphs that don't exist verbatim in the
+#     source: ligatures, maths (`α` vs `\alpha`), bib citation keys rendered
+#     as numbers, `\ref{…}` rendered as numbers, etc.
+#   - The clipboard might hold unrelated text (e.g. something copied from a
+#     browser). That's intentional: if no selection made recently this just
+#     searches for whatever's there. Use plain `gs` if you want a positional
+#     fallback without relying on clipboard state.
+
+set -eu
+
+# Prefer Wayland, fall back to X11.
+if [ -n "${WAYLAND_DISPLAY:-}" ] && command -v wl-paste >/dev/null 2>&1; then
+	text=$(wl-paste --no-newline 2>/dev/null || true)
+elif command -v xclip >/dev/null 2>&1; then
+	text=$(xclip -selection clipboard -o 2>/dev/null || true)
+else
+	exit 0
+fi
+
+# Flatten multi-line selections and trim surrounding whitespace.
+text=$(printf '%s' "$text" | tr '\n\r' '  ' | sed 's/^[[:space:]]*//;s/[[:space:]]*$//')
+
+[ -n "$text" ] || exit 0
+# Skip accidental single-char selections that would match too broadly.
+[ "${#text}" -ge 3 ] || exit 0
+
+# nvim socket set by the parent nvim that spawned zathura (via VimTeX).
+[ -n "${NVIM:-}" ] || exit 0
+
+# Escape backslash and forward-slash for vim's search pattern.
+escaped=$(printf '%s' "$text" | sed 's/\\/\\\\/g; s|/|\\/|g')
+
+# Feed `<Esc>/pattern<CR>` so the search lands in history and the cursor jumps.
+nvim --server "$NVIM" --remote-send "<Esc>/${escaped}<CR>"

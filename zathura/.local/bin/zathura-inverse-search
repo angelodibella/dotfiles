@@ -1,0 +1,40 @@
+#!/bin/sh
+# Inverse SyncTeX driver for zathura's keyboard-bound reverse search.
+#
+# Zathura has no built-in keyboard shortcut for inverse search (the default
+# `<C-LeftClick>` is mouse-only). This script fills the gap: given the current
+# page and PDF path (passed from a zathurarc `map … exec …` binding), it asks
+# the `synctex` CLI which source line covers the top of that page, then tells
+# the nvim instance that launched zathura to jump there via `VimtexInverseSearch`.
+#
+# Position is approximate (page top-left, 1:1), which is fine for paragraph-
+# level navigation. For precise sub-line jumps, use `<C-LeftClick>` on the
+# exact glyph — that still works and is more accurate.
+#
+# Usage:  zathura-inverse-search <page> <pdf-path>
+# Env:    NVIM — socket path of the nvim that spawned zathura (VimTeX sets this)
+
+set -eu
+
+page=${1:?usage: zathura-inverse-search <page> <pdf>}
+pdf=${2:?usage: zathura-inverse-search <page> <pdf>}
+
+# synctex edit prints multi-line output like:
+#   Output:…
+#   Input:/abs/path/to/file.tex
+#   Line:42
+#   Column:-1
+#   …
+out=$(synctex edit -o "${page}:1:1:${pdf}" 2>/dev/null) || exit 0
+
+line=$(printf '%s\n' "$out" | awk -F: '/^Line:/ {print $2; exit}')
+input=$(printf '%s\n' "$out" | sed -n '/^Input:/{s/^Input://;p;q;}')
+
+[ -n "$line" ]  || exit 0
+[ -n "$input" ] || exit 0
+
+# VimTeX wires this up automatically when it spawns zathura; if we're running
+# under a plain `zathura` invocation we simply have nothing to jump to.
+[ -n "${NVIM:-}" ] || exit 0
+
+nvim --server "$NVIM" --remote-send "<Esc>:VimtexInverseSearch ${line} '${input}'<CR>"
