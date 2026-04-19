@@ -35,20 +35,14 @@ return {
 			-- <c-k>: Toggle signature help
 			preset = "default",
 
-			-- LaTeX's tree-sitter grammar doesn't wrap `(…)`, `[…]`, `{…}` in
-			-- document-body text as a named pair node, so tabout.nvim's
-			-- treesitter-based jump misses them. Slot a balanced-pair
-			-- scanner into blink.cmp's Tab chain for tex buffers.
-			--
-			-- Algorithm: walk backward on the current line tracking depth
-			-- to find the innermost unmatched opener; then walk forward
-			-- to its matching closer. For `$`, which is self-matching, use
-			-- parity (odd number of `$` before cursor ⇒ inside math).
-			-- Returns true only when genuinely enclosed, so pressing Tab
-			-- outside a pair falls through cleanly to literal Tab — no
-			-- surprise jumps to the end of the enclosing environment.
-			--
-			-- Order: snippet_forward → tex balanced-pair jump → fallback.
+			-- In tex buffers, Tab jumps the cursor past the nearest closing
+			-- delimiter on the current line — nothing fancier. The earlier
+			-- balanced-pair walker was doing too much arithmetic and made
+			-- the jump feel non-deterministic in environments; this is just
+			-- "skip the next `)`, `]`, `}`, or `$`". If there isn't one
+			-- ahead on the line, the function returns nil and blink's
+			-- `fallback` fires a literal Tab (tabout excludes tex so it
+			-- can't teleport past \end{document}).
 			["<Tab>"] = {
 				"snippet_forward",
 				function()
@@ -57,61 +51,11 @@ return {
 					end
 					local row, col = unpack(vim.api.nvim_win_get_cursor(0))
 					local line = vim.api.nvim_get_current_line()
-					local pair_of = { ["("] = ")", ["["] = "]", ["{"] = "}" }
-					local open_of = {}
-					for o, c in pairs(pair_of) do
-						open_of[c] = o
-					end
-
-					-- Find the innermost unmatched `(` / `[` / `{` opener
-					-- to the left of the cursor.
-					local unmatched = { ["("] = 0, ["["] = 0, ["{"] = 0 }
-					local opener
-					for i = col, 1, -1 do
-						local ch = line:sub(i, i)
-						if open_of[ch] then
-							unmatched[open_of[ch]] = unmatched[open_of[ch]] + 1
-						elseif pair_of[ch] then
-							if unmatched[ch] > 0 then
-								unmatched[ch] = unmatched[ch] - 1
-							else
-								opener = ch
-								break
-							end
-						end
-					end
-
-					-- Fall back to `$` parity if no bracket opener was found.
-					if not opener then
-						local dollars = 0
-						for i = 1, col do
-							if line:sub(i, i) == "$" then
-								dollars = dollars + 1
-							end
-						end
-						if dollars % 2 == 1 then
-							opener = "$"
-						end
-					end
-
-					if not opener then
-						return
-					end
-
-					-- Walk forward to the matching closer, honouring nesting
-					-- for asymmetric pairs.
-					local closer = opener == "$" and "$" or pair_of[opener]
-					local depth = 1
+					local closers = { [")"] = true, ["]"] = true, ["}"] = true, ["$"] = true }
 					for i = col + 1, #line do
-						local ch = line:sub(i, i)
-						if opener ~= "$" and ch == opener then
-							depth = depth + 1
-						elseif ch == closer then
-							depth = depth - 1
-							if depth == 0 then
-								vim.api.nvim_win_set_cursor(0, { row, i })
-								return true
-							end
+						if closers[line:sub(i, i)] then
+							vim.api.nvim_win_set_cursor(0, { row, i })
+							return true
 						end
 					end
 				end,
