@@ -1,6 +1,18 @@
 include catppuccin-mocha
 set selection-clipboard clipboard
+
+# Scroll feel. `smooth-scroll` animates the `scroll` shortcut function; by
+# default only j/k go through it — the mouse wheel bypasses it and lands in
+# GTK's ScrolledWindow, which is why wheel scrolling feels abrupt compared to
+# j/k. The two `map <Button{4,5}>` lines route wheel ticks through the same
+# animated path, which is as close to "momentum" as zathura gets (it has no
+# real kinetic/inertia setting). Touchpad flick momentum is already handled
+# by GTK3's built-in kinetic scrolling, independent of any of this.
 set smooth-scroll true
+set scroll-full-overlap 0.1
+set scroll-step 80
+map <Button4> scroll up
+map <Button5> scroll down
 
 # Vim-like inverse SyncTeX. Default <C-LeftClick> still works for precise
 # per-glyph jumps; these keyboard alternatives cover "I want source for…":
