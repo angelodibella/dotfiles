@@ -1,0 +1,21 @@
+#!/bin/sh
+# Toggle libinput's tap-to-click on the touchpad. Bound to SUPER+c in
+# hyprland.conf. Default (set in the touchpad block) is `tap-to-click = false`
+# for palm rejection; flip on when you actually want tap-clicks for a bit,
+# flip off again before the next writing session.
+#
+# Hyprland's `exec` env doesn't carry ~/.local/bin on PATH, so callers should
+# invoke this by absolute path (the bind does). Internal tool invocations use
+# absolute paths too, for the same reason.
+
+set -eu
+
+current=$(/usr/bin/hyprctl getoption input:touchpad:tap-to-click -j | /usr/bin/jq -r '.int')
+
+if [ "$current" = "1" ]; then
+	/usr/bin/hyprctl keyword input:touchpad:tap-to-click false >/dev/null
+	/usr/bin/notify-send -t 1200 "Touchpad" "tap-to-click  off" 2>/dev/null || true
+else
+	/usr/bin/hyprctl keyword input:touchpad:tap-to-click true >/dev/null
+	/usr/bin/notify-send -t 1200 "Touchpad" "tap-to-click  on" 2>/dev/null || true
+fi
